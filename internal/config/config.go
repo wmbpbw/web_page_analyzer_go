@@ -91,7 +91,7 @@ func New() (*Config, error) {
 			UserAgent:      getEnv("USER_AGENT", "WebAnalyzer/1.0"),
 		},
 		Keycloak: KeycloakConfig{
-			URL:          getEnv("KEYCLOAK_URL", "http://localhost:8080/auth"),
+			URL:          getEnv("KEYCLOAK_URL", "http://localhost:8080"),
 			Realm:        getEnv("KEYCLOAK_REALM", "web-analyzer"),
 			ClientID:     getEnv("KEYCLOAK_CLIENT_ID", "web-analyzer-backend"),
 			ClientSecret: getEnv("KEYCLOAK_CLIENT_SECRET", ""),
