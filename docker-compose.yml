@@ -1,70 +1,33 @@
 version: '3.8'
 
 services:
-  # Backend Go service
   backend:
-    build: ./backend
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: web-analyzer-backend
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - "9090:9090"
     environment:
       - PORT=8080
-      - MONGO_URI=mongodb://mongo:27017
+      - MONGO_URI=mongodb://host.docker.internal:27017
       - MONGO_DB=web_analyzer
       - MONGO_COLLECTION=analyses
       - REQUEST_TIMEOUT=30
-      - KEYCLOAK_URL=http://keycloak:8080/auth
+      - KEYCLOAK_URL=http://host.docker.internal:8080/auth
       - KEYCLOAK_REALM=web-analyzer
       - KEYCLOAK_CLIENT_ID=web-analyzer-backend
       - KEYCLOAK_CLIENT_SECRET=${KEYCLOAK_CLIENT_SECRET}
     depends_on:
       - mongo
-      - keycloak
     networks:
-      - web-analyzer-network
-
-  # MongoDB service
-  mongo:
-    image: mongo:latest
-    container_name: web-analyzer-mongo
-    restart: unless-stopped
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
-    networks:
-      - web-analyzer-network
-
-  # Keycloak service
-  keycloak:
-    image: quay.io/keycloak/keycloak:21.1.1
-    container_name: web-analyzer-keycloak
-    restart: unless-stopped
-    ports:
-      - "8090:8080"
-    environment:
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
-      - KC_DB=postgres
-      - KC_DB_URL=jdbc:postgresql://postgres:5432/keycloak
-      - KC_DB_USERNAME=keycloak
-      - KC_DB_PASSWORD=keycloak
-      - KC_HOSTNAME_STRICT=false
-      - KC_HTTP_RELATIVE_PATH=/auth
-    command:
-      - start-dev
-    depends_on:
-      - postgres
-    networks:
-      - web-analyzer-network
+      - backend-network
 
 networks:
-  web-analyzer-network:
+  backend-network:
     driver: bridge
 
 volumes:
   mongo-data:
-    driver: local
-  postgres-data:
     driver: local
