@@ -20,6 +20,8 @@ services:
       - KEYCLOAK_REALM=web-analyzer
       - KEYCLOAK_CLIENT_ID=web-analyzer-backend
       # Removed KEYCLOAK_CLIENT_SECRET as we're using internal DB without secrets
+    extra_hosts:
+      - "localhost:host-gateway"  # This allows localhost to resolve to the host
     depends_on:
       - mongo
       - keycloak
@@ -52,6 +54,9 @@ services:
       - KC_DB=dev-file
       - KC_HOSTNAME_STRICT=false
       #- KC_HTTP_RELATIVE_PATH=/auth
+       # Critical settings for consistent URLs
+      - KC_HOSTNAME_URL=http://localhost:8080
+      - KC_HOSTNAME_ADMIN_URL=http://localhost:8080
     command:
       - start-dev
     networks:
