@@ -105,6 +105,9 @@ func (s *Server) registerRoutes() {
 		// Get analysis by ID
 		protected.GET("/analysis/:id", s.getAnalysisHandler)
 
+		// Get deep analysis
+		protected.GET("/analysis/:id/deep", s.deepAnalysisHandler)
+
 		// Get recent analyses
 		protected.GET("/analyses", s.getRecentAnalysesHandler)
 
