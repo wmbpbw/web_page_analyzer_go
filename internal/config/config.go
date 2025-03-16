@@ -81,7 +81,7 @@ func New() (*Config, error) {
 			ShutdownTimeout: time.Duration(shutdownTimeout) * time.Second,
 		},
 		MongoDB: MongoDBConfig{
-			URI:            getEnv("MONGO_URI", "mongodb://host.docker.internal:27017"),
+			URI:            getEnv("MONGO_URI", "mongodb://mongo:27017"),
 			Database:       getEnv("MONGO_DB", "web_analyzer"),
 			CollectionName: getEnv("MONGO_COLLECTION", "analyses"),
 			Timeout:        time.Duration(mongoTimeout) * time.Second,
@@ -91,7 +91,7 @@ func New() (*Config, error) {
 			UserAgent:      getEnv("USER_AGENT", "WebAnalyzer/1.0"),
 		},
 		Keycloak: KeycloakConfig{
-			URL:          getEnv("KEYCLOAK_URL", "http://host.docker.internal:8080"),
+			URL:          getEnv("KEYCLOAK_URL", "http://keycloak:8080"),
 			Realm:        getEnv("KEYCLOAK_REALM", "web-analyzer"),
 			ClientID:     getEnv("KEYCLOAK_CLIENT_ID", "web-analyzer-backend"),
 			ClientSecret: getEnv("KEYCLOAK_CLIENT_SECRET", ""),
