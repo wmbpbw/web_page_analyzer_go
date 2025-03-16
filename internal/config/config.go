@@ -43,6 +43,7 @@ type KeycloakConfig struct {
 	Realm        string
 	ClientID     string
 	ClientSecret string
+	FallbackURL  string
 }
 
 // New creates a new Config with values from environment variables
@@ -95,6 +96,7 @@ func New() (*Config, error) {
 			Realm:        getEnv("KEYCLOAK_REALM", "web-analyzer"),
 			ClientID:     getEnv("KEYCLOAK_CLIENT_ID", "web-analyzer-backend"),
 			ClientSecret: getEnv("KEYCLOAK_CLIENT_SECRET", ""),
+			FallbackURL:  getEnv("KEYCLOAK_FALLBACK_URL", "http://localhost:8080"),
 		},
 	}, nil
 }

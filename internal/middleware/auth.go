@@ -125,14 +125,6 @@ func extractToken(r *http.Request) (string, error) {
 
 // verifyToken verifies the JWT token with Keycloak
 func (k *KeycloakAuth) verifyToken(ctx context.Context, token string) (*UserInfo, error) {
-	// In a real implementation, this would:
-	// 1. Get the public key from Keycloak's JWKS endpoint
-	// 2. Verify the token signature
-	// 3. Validate token claims (expiry, issuer, audience)
-	// 4. Parse the user info from the token
-
-	// For simplicity, we'll implement a basic version that makes an HTTP request to Keycloak's userinfo endpoint
-
 	client := &http.Client{Timeout: 5 * time.Second}
 
 	// Create request to userinfo endpoint
@@ -157,6 +149,45 @@ func (k *KeycloakAuth) verifyToken(ctx context.Context, token string) (*UserInfo
 
 	// Check response status
 	if resp.StatusCode != http.StatusOK {
+		// Try with the fallback URL if the main URL fails
+		if fallbackURL := k.keycloakConfig.FallbackURL; fallbackURL != "" && fallbackURL != k.keycloakConfig.URL {
+			k.logger.Info("Using fallback URL for token verification",
+				"main", k.keycloakConfig.URL,
+				"fallback", fallbackURL)
+
+			// Create a new request with the fallback URL
+			fallbackUserinfoURL := fmt.Sprintf("%s/realms/%s/protocol/openid-connect/userinfo",
+				fallbackURL,
+				k.keycloakConfig.Realm)
+
+			fallbackReq, err := http.NewRequestWithContext(ctx, "GET", fallbackUserinfoURL, nil)
+			if err != nil {
+				return nil, fmt.Errorf("failed to create fallback request: %w", err)
+			}
+
+			// Add token to request
+			fallbackReq.Header.Set("Authorization", "Bearer "+token)
+
+			// Send fallback request
+			fallbackResp, err := client.Do(fallbackReq)
+			if err != nil {
+				return nil, fmt.Errorf("failed to get userinfo with fallback URL: %w", err)
+			}
+			defer fallbackResp.Body.Close()
+
+			if fallbackResp.StatusCode != http.StatusOK {
+				return nil, fmt.Errorf("invalid token or userinfo request failed: %d", fallbackResp.StatusCode)
+			}
+
+			// Parse response from fallback
+			var userInfo UserInfo
+			if err := json.NewDecoder(fallbackResp.Body).Decode(&userInfo); err != nil {
+				return nil, fmt.Errorf("failed to parse userinfo response from fallback: %w", err)
+			}
+
+			return &userInfo, nil
+		}
+
 		return nil, fmt.Errorf("invalid token or userinfo request failed: %d", resp.StatusCode)
 	}
 
