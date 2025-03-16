@@ -16,7 +16,7 @@ services:
       - MONGO_DB=web_analyzer
       - MONGO_COLLECTION=analyses
       - REQUEST_TIMEOUT=30
-      - KEYCLOAK_URL=http://localhost:8080
+      - KEYCLOAK_URL=http://keycloak:8080
       - KEYCLOAK_REALM=web-analyzer
       - KEYCLOAK_CLIENT_ID=web-analyzer-backend
       # Removed KEYCLOAK_CLIENT_SECRET as we're using internal DB without secrets
