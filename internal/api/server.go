@@ -280,7 +280,7 @@ func (s *Server) getRecentAnalysesHandler(c *gin.Context) {
 	for _, role := range ui.RealmAccess.Roles {
 		if role == "admin" {
 			isAdmin = true
-			break
+			//break
 		}
 	}
 
@@ -294,7 +294,8 @@ func (s *Server) getRecentAnalysesHandler(c *gin.Context) {
 		results, err = s.repo.GetRecentAnalyses(ctx, limit)
 	} else {
 		// Regular users can only see their own analyses
-		results, err = s.repo.GetUserAnalyses(ctx, ui.Sub, limit)
+		//results, err = s.repo.GetUserAnalyses(ctx, ui.Sub, limit)
+		results, err = s.repo.GetRecentAnalyses(ctx, limit)
 	}
 
 	if err != nil {
