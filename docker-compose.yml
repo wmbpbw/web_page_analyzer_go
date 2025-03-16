@@ -4,12 +4,12 @@ services:
 
   backend:
     build:
-      context: ./backend
+      context: ./
       dockerfile: Dockerfile
     container_name: web-analyzer-backend
     restart: unless-stopped
     environment:
-      - PORT=8080
+      - PORT=9090
       - MONGO_URI=mongodb://mongo:27017
       - MONGO_DB=web_analyzer
       - MONGO_COLLECTION=analyses
