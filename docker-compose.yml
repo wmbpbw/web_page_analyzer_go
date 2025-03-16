@@ -8,6 +8,8 @@ services:
       dockerfile: Dockerfile
     container_name: web-analyzer-backend
     restart: unless-stopped
+    ports:
+      - "9090:9090"  # Added port mapping to expose service to host
     environment:
       - PORT=9090
       - MONGO_URI=mongodb://mongo:27017
@@ -17,7 +19,7 @@ services:
       - KEYCLOAK_URL=http://keycloak:8080
       - KEYCLOAK_REALM=web-analyzer
       - KEYCLOAK_CLIENT_ID=web-analyzer-backend
-      - KEYCLOAK_CLIENT_SECRET=${KEYCLOAK_CLIENT_SECRET}
+      # Removed KEYCLOAK_CLIENT_SECRET as we're using internal DB without secrets
     depends_on:
       - mongo
       - keycloak
