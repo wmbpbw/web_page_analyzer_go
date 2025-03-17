@@ -1,10 +1,8 @@
                               Local Deployment Guide
 
-Get the updated source from below two repositories.
+Get the GO back-end source code from below repository.
 
 _**https://github.com/wmbpbw/web_page_analyzer_go**_
-
-**_https://github.com/wmbpbw/web_page_analyzer_react_**
 
 •
 Firstly, deploy the Go backend application. It will deploy go-backend, keycloak , and mongodb as well.
@@ -34,17 +32,17 @@ Create a Realm user (any username, email, first name, last name).
 Go to credentials tab and provide credentials for new user.( Make sure temporary password option disabled to use the. Otherwise have to provide a new password at first login)
 
 
-Goto relam clients and import clients using given files. This will create two clients with all the configurations.
+Goto relam clients and import clients using given JSON files. This will create two clients with all the configurations.
 
-Get files from this  repo : **https://github.com/wmbpbw/keyclok-client-data**
+Get JSON files from this  repo : **https://github.com/wmbpbw/keyclok-client-data**
 
-Below are the file names
+Below are the files
 
 ▪
 **web-analyzer-backend**
 
 ▪
-**web-analyzer-fronten**d
+**web-analyzer-frontend**
 
 
 No need to do anything with mongodb. All setup with the deployment. Can access using Mongo compass with below url if necessary.
@@ -52,11 +50,4 @@ No need to do anything with mongodb. All setup with the deployment. Can access u
 
 **mongodb://localhost:27017**
 
-•
-Then deploy react app using same docker command.
-
-o
-Access front-end app using **http://localhost:80**
-
-
-Use newly created user to login to the system. (keycloak user).
+**Then follow REACT front-end README file instructions to deploy REACT app.**
