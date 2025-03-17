@@ -255,3 +255,78 @@ Add translations for the UI
 
 ation for ensuring the analyzer works correctly while maintaining good software engineering practices by isolating the
 tests from external dependencies.
+
+
+                              **Test Coverage**
+
+The test suite covers the following areas:
+
+Basic URL Analysis:
+
+Tests the main AnalyzeURL function to ensure it correctly analyzes a page
+Verifies title extraction, HTML version detection, heading counts, link counts, and login form detection
+
+
+HTML Version Detection:
+
+Tests detection of HTML5 documents
+Tests detection of HTML 4.01 documents
+
+
+Error Handling:
+
+Invalid URL formats
+HTTP error responses (500 errors)
+Not found errors (404)
+Connection timeouts
+
+
+Login Form Detection:
+
+Detection based on input types (username/password fields)
+Detection based on form attributes/classes
+Verification that non-login forms aren't detected as login forms
+
+
+Link Accessibility:
+
+Tests that working and broken links are correctly identified
+Verifies counts of accessible and inaccessible links
+Tests both internal and external links
+
+
+Context Handling:
+
+Tests behavior when context is cancelled
+
+
+URL Scheme Handling:
+
+Tests handling of URLs without schemes
+
+
+Concurrency Testing:
+
+Tests the analyzer under concurrent requests
+
+
+
+Implementation Notes
+
+The test suite creates mock HTTP servers to simulate different scenarios without making actual network requests.
+The test setup includes:
+
+A main test server with various endpoints (/page1, /page2, /html4, /error)
+A separate external test server to test external link handling
+Specialized servers for testing specific functionality like form detection
+
+
+Test helpers are provided to create consistent test environments:
+
+createTestServer() - Creates a test HTTP server with predefined responses
+createExternalTestServer() - Creates a server to simulate external sites
+getTestAnalyzer() - Creates an analyzer instance with test configuration
+mockAnalysisResult() - Creates a mock analysis result for testing
+
+
+Each test function focuses on a specific aspect of the analyzer's functionality, making it easy to identify issues when tests fail.
