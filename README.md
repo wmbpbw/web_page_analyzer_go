@@ -287,3 +287,86 @@ International Support
 Add full Unicode support
 Implement language detection
 Add translations for the UI
+
+                             **Unit Tests Coverage**
+
+
+The tests cover all major functions in the analyzer package:
+
+Constructor Testing
+
+TestNew: Verifies that the analyzer is created with the correct configuration
+
+
+Core Functionality
+
+TestAnalyzeURL: Tests the main analysis function with a mocked HTTP client
+TestAnalyzeURLWithInvalidURL: Tests error handling for invalid URLs
+TestAnalyzeURLWithHTTPError: Tests handling of HTTP error responses
+
+
+Document Processing
+
+TestAnalyzeDocument: Tests HTML document analysis and data extraction
+TestDetectHTMLVersion: Tests HTML version detection with multiple doctype formats
+TestDetectLoginForm: Tests login form detection with various form structures
+
+
+Link Handling
+
+TestIsLinkAccessible: Tests link accessibility checking with mocked responses
+
+
+
+Mock Implementation
+To avoid real HTTP requests, the tests use several mocking strategies:
+
+MockHTTPClient: A mock implementation of the HTTP client that returns predefined responses
+Function Patching: The isLinkAccessible method is temporarily replaced during tests
+Dependency Injection: The tests inject mocked dependencies into the analyzer
+
+Key Test Strategies
+
+Table-Driven Tests: Used for HTML version detection and login form tests
+HTML Parsing: Tests parse actual HTML to simulate real document processing
+Context Handling: Tests properly utilize context to match the code's behavior
+Edge Cases: Tests cover both success paths and error conditions
+
+Integration Testing Information
+While unit tests are essential, integration tests provide end-to-end validation. I've included a skipped integration test as a template with these considerations:
+
+When to use integration tests:
+
+To validate behavior against real websites
+To ensure compatibility with external HTTP services
+To test the full analysis pipeline with actual HTML content
+
+
+Integration test setup:
+
+Use environment variables to control which sites to test against
+Implement proper timeouts and error handling
+Consider using a staging/test website you control
+
+
+Integration testing challenges:
+
+Network reliability impacts test stability
+External websites may change unexpectedly
+Tests run slower than unit tests
+
+
+Best practices:
+
+Keep integration tests in a separate test suite
+Use flags to include/exclude them: go test -tags=integration
+Consider recording and replaying HTTP responses
+Document expected test behavior and limitations
+
+
+
+To run just the unit tests:
+Copygo test ./...
+To run integration tests (when implemented):
+Copygo test -tags=integration ./...
+These tests provide a solid foundation for ensuring the analyzer works correctly while maintaining good software engineering practices by isolating the tests from external dependencies.
