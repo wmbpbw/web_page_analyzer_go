@@ -2,12 +2,16 @@
 
 **Kindly refer Demo Videos : https://drive.google.com/drive/folders/1LXF_gMujH8GRACEpjzXCFhLV-J_4c1zp?usp=sharing**
 
-Get the GO back-end source code from below repository.
+Clone the project using below command
 
-_**https://github.com/wmbpbw/web_page_analyzer_go**_
+git clone https://github.com/wmbpbw/web_page_analyzer_go.git
 
 •
 Firstly, deploy the Go backend application. It will deploy go-backend, keycloak , and mongodb as well.
+
+change your directory to project root location 
+
+**cd \webPageAnalyzerGO**
 
 •
 Execute below command on GO Backend project root location.
