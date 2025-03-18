@@ -139,6 +139,11 @@ Deployment: Docker Compose for local deployment, instructions for cloud deployme
 
 **Limitations**
 
+**Have implemented the deep analysis flow as an additional step  of the requirement. Most of the analyzed data displayed in the tabs.
+But in some tabs such as SEO, Accessibility, Content, Mobile...etc... Some calculations are not done in order to get the scores.
+Due to that some filed may display Undefined values.**
+
+
 JavaScript Rendered Content
 
 Cannot analyze content rendered via JavaScript after initial page load
